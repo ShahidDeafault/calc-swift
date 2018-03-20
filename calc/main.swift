@@ -12,3 +12,5 @@ var args = ProcessInfo.processInfo.arguments
 args.removeFirst() // remove the name of the program
 
 print(Int(args[0])!)
+print(args[1])
+print(args[2])
