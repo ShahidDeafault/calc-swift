@@ -84,15 +84,19 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "t"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
             argument = "+"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "3"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "x"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "6"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

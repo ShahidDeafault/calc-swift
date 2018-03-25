@@ -9,5 +9,9 @@
 import Foundation
 
 enum CalcError : Error {
+    case invalidInput
+    
     case divisionByZero
+    
+    case integerOutOfBound
 }
