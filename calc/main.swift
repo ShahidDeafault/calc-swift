@@ -49,45 +49,6 @@ private func getPrecedence(op: String) -> Int {
     return 3;
 }
 
-//
-private func convertToPostfix() -> [String] {
-    var stack = [String]()
-    var tokensRPN = [String]()
-    
-    for token in args {
-        if token == "(" {
-            stack.append(token)
-        }
-        else if token == ")" {
-            while stack.last != "(" {
-                tokensRPN.append(stack.last!)
-                stack.removeLast();
-            }
-            stack.removeLast();
-        }
-        else {
-            if isNumber(tokens: token) {
-                tokensRPN.append(token)
-            }
-            else {
-                
-                while !stack.isEmpty && (getPrecedence(op: stack.last!) >= getPrecedence(op: token)) {
-                    tokensRPN.append(stack.last!)
-                    stack.removeLast()
-                }
-                stack.append(token)
-            }
-        }
-    }
-    while !stack.isEmpty {
-        tokensRPN.append(stack.last!)
-        stack.removeLast()
-    }
-    return tokensRPN
-}
-
-print(convertToPostfix())
-
 
 
 
