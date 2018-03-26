@@ -27,15 +27,15 @@ struct Expression {
         return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: token))
     }
     
-    // helper function to check if token is an operator
-    private func isOperator(token: String) -> Bool {
-        switch token {
-        case "x", "/", "%", "+", "-":
-            return true
-        default:
-            return false
-        }
-    }
+//    // helper function to check if token is an operator
+//    private func isOperator(token: String) -> Bool {
+//        switch token {
+//        case "x", "/", "%", "+", "-":
+//            return true
+//        default:
+//            return false
+//        }
+//    }
     
     // get the operator precedence
     private func getPrecedence(op: String) -> Int {
