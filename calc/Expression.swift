@@ -62,8 +62,7 @@ struct Expression {
             }
             else if token == ")" {
                 while stack.last != "(" {
-                    tokensRPN.append(stack.last!)
-                    stack.removeLast();
+                    tokensRPN.append(stack.popLast()!)
                 }
                 stack.removeLast();
             }
@@ -74,21 +73,19 @@ struct Expression {
                 else {
                     
                     while !stack.isEmpty && (getPrecedence(op: stack.last!) >= getPrecedence(op: token)) {
-                        tokensRPN.append(stack.last!)
-                        stack.removeLast()
+                        tokensRPN.append(stack.popLast()!)
                     }
                     stack.append(token)
                 }
             }
         }
         while !stack.isEmpty {
-            tokensRPN.append(stack.last!)
-            stack.removeLast()
+            tokensRPN.append(stack.popLast()!)
         }
         expression = tokensRPN
     }
     
-    func calculateExpression()  -> Int {
+    func evaluateExpression() throws -> Int {
         var stack = [String]()
         var result: Int = 0
         
@@ -113,14 +110,14 @@ struct Expression {
                         break
                     case "/":
                         if rhs == 0 {
-                            print("Division by zeroo")
+                            throw CalcError.divisionByZero
                         }
                         result = lhs / rhs
                         stack.append(String(result))
                         break
                     case "%":
                         if rhs == 0 {
-                            print("Division by zeroo")
+                            throw CalcError.divisionByZero
                         }
                         result = lhs % rhs
                         stack.append(String(result))
