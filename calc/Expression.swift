@@ -81,7 +81,7 @@ struct Expression {
         expression = tokensRPN
     }
     
-    func calculateExpression() -> Int {
+    func calculateExpression()  -> Int {
         var stack = [String]()
         var result: Int = 0
         
@@ -126,6 +126,9 @@ struct Expression {
                     }
                 }
             }
+        }
+        if stack.count == 1 {
+            result = Int(stack[0])!
         }
         return result
     }
