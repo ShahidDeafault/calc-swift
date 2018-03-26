@@ -17,7 +17,19 @@ struct Expression {
     
     // helper function to check if token is a number
     private func isNumber(token: String) -> Bool {
-        return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: token))
+        let valueIsPositive: Bool = CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: token))
+        let valueIsNegative: Bool = token.hasPrefix("-")
+        
+        if valueIsPositive {
+            return true
+        }
+        else if token.count > 1 && valueIsNegative {
+            var slicedToken: String = token
+            slicedToken.removeFirst()
+            return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: slicedToken))
+        }
+        return false
+//        return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: token))
     }
     
     // helper function to check if token is an operator
@@ -88,7 +100,12 @@ struct Expression {
         for token in expression {
             if isNumber(token: token) {
                 stack.append(token)
+                
+                if (stack.count == 1) {
+                    result = Int(stack[0])!
+                }
             }
+            // token is an operator
             else {
                 if (stack.count > 1) {
                     let rhs: Int = Int(stack.popLast()!)!
@@ -126,9 +143,6 @@ struct Expression {
                     }
                 }
             }
-        }
-        if stack.count == 1 {
-            result = Int(stack[0])!
         }
         return result
     }

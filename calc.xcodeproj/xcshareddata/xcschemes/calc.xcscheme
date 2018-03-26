@@ -80,7 +80,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-73"
+            argument = "+45"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

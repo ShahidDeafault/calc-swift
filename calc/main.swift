@@ -11,7 +11,7 @@ import Foundation
 var args = ProcessInfo.processInfo.arguments
 args.removeFirst() // remove the name of the program
 
-print("test change")
+
 //for item in args {
 //    print(item)
 //}
@@ -27,13 +27,13 @@ result = expression.calculateExpression()
 
 print(result)
 
-private func isNumber(tokens: String) -> Bool {
-    return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: tokens))
+private func isNumber(token: String) -> Bool {
+    return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: token))
 }
 
 // helper function to check if token is an operator
-private func isOperator(tokens: String) -> Bool {
-    switch tokens {
+private func isOperator(token: String) -> Bool {
+    switch token {
     case "*", "/", "%", "+", "-":
         return true
     default:
