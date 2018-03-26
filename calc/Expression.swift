@@ -17,19 +17,14 @@ struct Expression {
     
     // helper function to check if token is a number
     private func isNumber(token: String) -> Bool {
-        let valueIsPositive: Bool = CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: token))
-        let valueIsNegative: Bool = token.hasPrefix("-")
+        let tokenHasUnary: Bool = token.hasPrefix("-") || token.hasPrefix("+")
         
-        if valueIsPositive {
-            return true
-        }
-        else if token.count > 1 && valueIsNegative {
+        if token.count > 1 && tokenHasUnary {
             var slicedToken: String = token
             slicedToken.removeFirst()
             return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: slicedToken))
         }
-        return false
-//        return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: token))
+        return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: token))
     }
     
     // helper function to check if token is an operator
