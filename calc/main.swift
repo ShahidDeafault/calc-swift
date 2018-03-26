@@ -15,11 +15,17 @@ args.removeFirst() // remove the name of the program
 //for item in args {
 //    print(item)
 //}
-print(Int(args[0])!)
-print(args[1])
-print(args[2])
+//print(Int(args[0])!)
+//print(args[1])
+//print(args[2])
 
-//var expression: Expression = Expression(expression: args)
+var expression: Expression = Expression(expression: args)
+let result: Int
+
+expression.convertToPostfix()
+result = expression.calculateExpression()
+
+print(result)
 
 private func isNumber(tokens: String) -> Bool {
     return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: tokens))
