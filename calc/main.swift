@@ -9,7 +9,7 @@
 import Foundation
 
 var args = ProcessInfo.processInfo.arguments
-args.removeFirst() // remove the name of the program
+args.removeFirst() // remove the name of the program (the executable name "./calc")
 
 
 //for item in args {
@@ -28,16 +28,20 @@ do {
     
     print(result)
 }
-catch CalcError.invalidInput {
-    print("Invalid input")
-    exit(1)
+catch let error as CalcError {
+    switch error {
+    case .invalidInput:
+        print("Invalid input")
+        exit(1)
+    case .divisionByZero:
+        print("Division by zero")
+        exit(2)
+    case .integerOutOfBound:
+        print("Invalid number - integer out-of-bounds")
+        exit(3)
+    }
+    
+    
+    
+    
 }
-catch CalcError.divisionByZero {
-    print("Division by zero")
-    exit(2)
-}
-catch CalcError.integerOutOfBound {
-    print("Invalid number - integer out-of-bounds")
-    exit(3)
-}
-

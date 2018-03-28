@@ -11,10 +11,6 @@ import Foundation
 struct Expression {
     var expression: [String]
     
-//    init(expression: [String]) throws {
-//
-//    }
-    
     // helper function to check if token is a number
     private func isNumber(token: String) -> Bool {
         let tokenHasUnary: Bool = token.hasPrefix("-") || token.hasPrefix("+")
@@ -27,15 +23,22 @@ struct Expression {
         return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: token))
     }
     
-//    // helper function to check if token is an operator
-//    private func isOperator(token: String) -> Bool {
-//        switch token {
-//        case "x", "/", "%", "+", "-":
-//            return true
-//        default:
-//            return false
-//        }
-//    }
+    private func validNumber(token: String) throws -> Bool {
+        if isNumber(token: token) && Int(token) == nil {
+            throw CalcError.integerOutOfBound
+        }
+        return Int(token) != nil
+    }
+    
+    // helper function to check if token is an operator
+    private func isOperator(token: String) -> Bool {
+        switch token {
+        case "x", "/", "%", "+", "-":
+            return true
+        default:
+            return false
+        }
+    }
     
     // get the operator precedence
     private func getPrecedence(op: String) -> Int {
@@ -52,7 +55,7 @@ struct Expression {
     }
     
     // shunting-yard algorithm
-    mutating func convertToPostfix() {
+    mutating func convertToPostfix() throws {
         var stack = [String]()
         var tokensRPN = [String]()
         
@@ -64,14 +67,14 @@ struct Expression {
                 while stack.last != "(" {
                     tokensRPN.append(stack.popLast()!)
                 }
-                stack.removeLast();
+                stack.removeLast()
             }
             else {
-                if isNumber(token: token) {
+                // THROW ERROR HERE OUT OF BOUNDS
+                if try validNumber(token: token) {
                     tokensRPN.append(token)
                 }
                 else {
-                    
                     while !stack.isEmpty && (getPrecedence(op: stack.last!) >= getPrecedence(op: token)) {
                         tokensRPN.append(stack.popLast()!)
                     }
@@ -99,6 +102,10 @@ struct Expression {
             }
             // token is an operator
             else {
+                guard isOperator(token: token) else {
+                    throw CalcError.invalidInput
+                }
+                // THROW ERROR HERE INVALID INPUT/UNDEFINED OPERATOR
                 if (stack.count > 1) {
                     let rhs: Int = Int(stack.popLast()!)!
                     let lhs: Int = Int(stack.popLast()!)!
@@ -138,5 +145,6 @@ struct Expression {
         }
         return result
     }
+
 }
 
