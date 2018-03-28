@@ -9,9 +9,11 @@
 import Foundation
 
 enum CalcError : Error {
-    case invalidInput
+    case insufficientTerms
+    
+    case invalidInput(input: String)
     
     case divisionByZero
     
-    case integerOutOfBound
+    case integerOutOfBound(number: String)
 }

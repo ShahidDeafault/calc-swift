@@ -30,15 +30,18 @@ do {
 }
 catch let error as CalcError {
     switch error {
-    case .invalidInput:
-        print("Invalid input")
+    case .insufficientTerms:
+        print("Incomplete expression. Expected input of the form [number] [operator] [number] ...")
         exit(1)
+    case .invalidInput(let input):
+        print("Invalid input: \(input)")
+        exit(2)
     case .divisionByZero:
         print("Division by zero")
-        exit(2)
-    case .integerOutOfBound:
-        print("Invalid number - integer out-of-bounds")
         exit(3)
+    case .integerOutOfBound(let number):
+        print("Invalid number: \(number) - integer out-of-bounds")
+        exit(4)
     }
     
     

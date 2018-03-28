@@ -25,7 +25,7 @@ struct Expression {
     
     private func validNumber(token: String) throws -> Bool {
         if isNumber(token: token) && Int(token) == nil {
-            throw CalcError.integerOutOfBound
+            throw CalcError.integerOutOfBound(number: token)
         }
         return Int(token) != nil
     }
@@ -70,7 +70,6 @@ struct Expression {
                 stack.removeLast()
             }
             else {
-                // THROW ERROR HERE OUT OF BOUNDS
                 if try validNumber(token: token) {
                     tokensRPN.append(token)
                 }
@@ -88,24 +87,23 @@ struct Expression {
         expression = tokensRPN
     }
     
+    // solve the expression
     func evaluateExpression() throws -> Int {
         var stack = [String]()
         var result: Int = 0
         
+//        guard expression.count == 1 else {
+//            <#statements#>
+//        }
         for token in expression {
             if isNumber(token: token) {
                 stack.append(token)
-                
-                if (stack.count == 1) {
-                    result = Int(stack[0])!
-                }
             }
             // token is an operator
             else {
                 guard isOperator(token: token) else {
-                    throw CalcError.invalidInput
+                    throw CalcError.invalidInput(input: token)
                 }
-                // THROW ERROR HERE INVALID INPUT/UNDEFINED OPERATOR
                 if (stack.count > 1) {
                     let rhs: Int = Int(stack.popLast()!)!
                     let lhs: Int = Int(stack.popLast()!)!
@@ -143,6 +141,11 @@ struct Expression {
                 }
             }
         }
+        
+//        stack.count == 1 && try validNumber(token: stack.popLast()!) {
+//            result = Int(stack.popLast()!)!
+//        }
+        
         return result
     }
 
