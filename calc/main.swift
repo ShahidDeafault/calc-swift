@@ -31,7 +31,7 @@ do {
 catch let error as CalcError {
     switch error {
     case .insufficientTerms:
-        print("Incomplete expression. Expected input of the form [number] [operator] [number] ...")
+        print("Incomplete expression. Expected input of the form [number operator number ...]")
         exit(1)
     case .invalidInput(let input):
         print("Invalid input: \(input)")

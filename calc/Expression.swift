@@ -57,7 +57,11 @@ struct Expression {
     // shunting-yard algorithm
     mutating func convertToPostfix() throws {
         var stack = [String]()
-        var tokensRPN = [String]()
+        var output = [String]()
+
+        if expression.count < 3 && !isNumber(token: expression.last!) {
+            throw CalcError.insufficientTerms
+        }
         
         for token in expression {
             if token == "(" {
@@ -65,26 +69,26 @@ struct Expression {
             }
             else if token == ")" {
                 while stack.last != "(" {
-                    tokensRPN.append(stack.popLast()!)
+                    output.append(stack.popLast()!)
                 }
                 stack.removeLast()
             }
             else {
                 if try validNumber(token: token) {
-                    tokensRPN.append(token)
+                    output.append(token)
                 }
                 else {
                     while !stack.isEmpty && (getPrecedence(op: stack.last!) >= getPrecedence(op: token)) {
-                        tokensRPN.append(stack.popLast()!)
+                        output.append(stack.popLast()!)
                     }
                     stack.append(token)
                 }
             }
         }
         while !stack.isEmpty {
-            tokensRPN.append(stack.popLast()!)
+            output.append(stack.popLast()!)
         }
-        expression = tokensRPN
+        expression = output
     }
     
     // solve the expression
@@ -92,12 +96,13 @@ struct Expression {
         var stack = [String]()
         var result: Int = 0
         
-//        guard expression.count == 1 else {
-//            <#statements#>
-//        }
         for token in expression {
-            if isNumber(token: token) {
+            if try validNumber(token: token) {
                 stack.append(token)
+
+                if (stack.count == 1) {
+                    result = Int(stack.first!)!
+                }
             }
             // token is an operator
             else {
@@ -141,11 +146,6 @@ struct Expression {
                 }
             }
         }
-        
-//        stack.count == 1 && try validNumber(token: stack.popLast()!) {
-//            result = Int(stack.popLast()!)!
-//        }
-        
         return result
     }
 
