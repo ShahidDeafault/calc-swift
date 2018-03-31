@@ -2,6 +2,10 @@
 
 <p style="clear:left">41889 - Application Development in the iOS Environment<br/>42889 - iOS Application Development<br/>Autumn 2018</p>
 
+<<<<<<< HEAD
+=======
+[![Build Status](https://travis-ci.com/uts-ios-dev/calc-audwinoyong.svg?token=GxVa3WM6y8BWdLKJdsnd&branch=master)](https://travis-ci.com/uts-ios-dev/calc-audwinoyong)
+>>>>>>> fa18b75a31616a0b6fc8c5fc1ae29ac4478bb86e
 
 # Assessment Task 1
 
