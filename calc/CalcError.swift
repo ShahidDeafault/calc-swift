@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Custom enum error to handle calculation errors
 enum CalcError : Error {
     case insufficientTerms
     case invalidInput(input: String)

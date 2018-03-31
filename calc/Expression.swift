@@ -11,7 +11,7 @@ import Foundation
 struct Expression {
     var expression: [String]
     
-    /// helper function to check if token is a number
+    /// Helper function to check if token is a number
     private func isNumber(token: String) -> Bool {
         let tokenHasUnary: Bool = token.hasPrefix("-") || token.hasPrefix("+")
         var checkedToken: String = token
@@ -22,7 +22,7 @@ struct Expression {
         return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: checkedToken))
     }
     
-    /// helper function to check if token is valid within the integer range
+    /// Helper function to check if token is valid within the integer range
     private func validNumber(token: String) throws -> Bool {
         if isNumber(token: token) && Int(token) == nil {
             throw CalcError.integerOutOfBound(number: token)
@@ -30,7 +30,7 @@ struct Expression {
         return Int(token) != nil
     }
     
-    // helper function to check if token is an operator
+    /// Helper function to check if token is an operator
     private func isOperator(token: String) -> Bool {
         switch token {
         case "x", "/", "%", "+", "-":
@@ -40,7 +40,7 @@ struct Expression {
         }
     }
     
-    // get the operator precedence
+    /// Function to return an operator precedence
     private func getPrecedence(op: String) -> Int {
         if op == "(" {
             return 0
@@ -54,12 +54,12 @@ struct Expression {
         return 3;
     }
     
-    // shunting-yard algorithm
+    /// Method to convert Infix Notation to Postfix Notation using Shunting-yard Algorithm
     mutating func convertToPostfix() throws {
         var stack = [String]()
         var output = [String]()
-
-        if expression.count < 3 && !isNumber(token: expression.last!) {
+        
+        if expression.isEmpty || (expression.count < 3 && !isNumber(token: expression.last!)) {
             throw CalcError.insufficientTerms
         }
         
@@ -90,7 +90,7 @@ struct Expression {
         expression = output
     }
     
-    // solve the expression
+    /// Method to evaluate the result of the Postfix Notation as Int value.
     func evaluateExpression() throws -> Int {
         var stack = [String]()
         var result: Int = 0
@@ -138,6 +138,6 @@ struct Expression {
         }
         return result
     }
-
+    
 }
 

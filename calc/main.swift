@@ -36,7 +36,4 @@ catch let error as CalcError {
         exit(4)
     }
     
-    
-    
-    
 }
