@@ -11,18 +11,18 @@ import Foundation
 struct Expression {
     var expression: [String]
     
-    // helper function to check if token is a number
+    /// helper function to check if token is a number
     private func isNumber(token: String) -> Bool {
         let tokenHasUnary: Bool = token.hasPrefix("-") || token.hasPrefix("+")
+        var checkedToken: String = token
         
-        if token.count > 1 && tokenHasUnary {
-            var slicedToken: String = token
-            slicedToken.removeFirst()
-            return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: slicedToken))
+        if checkedToken.count > 1 && tokenHasUnary {
+            checkedToken.removeFirst()
         }
-        return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: token))
+        return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: checkedToken))
     }
     
+    /// helper function to check if token is valid within the integer range
     private func validNumber(token: String) throws -> Bool {
         if isNumber(token: token) && Int(token) == nil {
             throw CalcError.integerOutOfBound(number: token)
@@ -71,7 +71,6 @@ struct Expression {
                 while stack.last != "(" {
                     output.append(stack.popLast()!)
                 }
-                stack.removeLast()
             }
             else {
                 if try validNumber(token: token) {
@@ -100,7 +99,7 @@ struct Expression {
             if try validNumber(token: token) {
                 stack.append(token)
 
-                if (stack.count == 1) {
+                if (expression.count == 1) {
                     result = Int(stack.first!)!
                 }
             }
@@ -116,33 +115,24 @@ struct Expression {
                     switch token {
                     case "x":
                         result = lhs * rhs
-                        stack.append(String(result))
-                        break
                     case "/":
                         if rhs == 0 {
                             throw CalcError.divisionByZero
                         }
                         result = lhs / rhs
-                        stack.append(String(result))
-                        break
                     case "%":
                         if rhs == 0 {
                             throw CalcError.divisionByZero
                         }
                         result = lhs % rhs
-                        stack.append(String(result))
-                        break
                     case "+":
                         result = lhs + rhs
-                        stack.append(String(result))
-                        break
                     case "-":
                         result = lhs - rhs
-                        stack.append(String(result))
-                        break
                     default:
                         break
                     }
+                    stack.append(String(result))
                 }
             }
         }

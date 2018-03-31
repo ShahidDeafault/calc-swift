@@ -11,15 +11,7 @@ import Foundation
 var args = ProcessInfo.processInfo.arguments
 args.removeFirst() // remove the name of the program (the executable name "./calc")
 
-
-//for item in args {
-//    print(item)
-//}
-//print(Int(args[0])!)
-//print(args[1])
-//print(args[2])
-
-var expression: Expression = Expression(expression: args)
+var expression = Expression(expression: args)
 let result: Int
 
 do {
@@ -40,7 +32,7 @@ catch let error as CalcError {
         print("Division by zero")
         exit(3)
     case .integerOutOfBound(let number):
-        print("Invalid number: \(number) - integer out-of-bounds")
+        print("Invalid number: \(number) (integer out-of-bounds)")
         exit(4)
     }
     

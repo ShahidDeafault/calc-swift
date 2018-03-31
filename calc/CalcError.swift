@@ -10,10 +10,7 @@ import Foundation
 
 enum CalcError : Error {
     case insufficientTerms
-    
     case invalidInput(input: String)
-    
     case divisionByZero
-    
     case integerOutOfBound(number: String)
 }
