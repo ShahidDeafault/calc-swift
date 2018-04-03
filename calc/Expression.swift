@@ -158,6 +158,4 @@ struct Expression {
         }
         return result
     }
-    
 }
-

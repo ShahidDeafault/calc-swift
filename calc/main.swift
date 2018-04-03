@@ -36,5 +36,4 @@ catch let error as CalcError {
         print("Invalid number: \(number) (integer out-of-bounds)")
         exit(4)
     }
-    
 }
