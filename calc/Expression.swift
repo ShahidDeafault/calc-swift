@@ -58,7 +58,7 @@ struct Expression {
     /// [number operator number ...] and ends with a [number].
     /// Otherwise, it is an invalid expression
     mutating func checkTerms() throws {
-        guard isNumber(token: expression.last!) else {
+        guard !expression.isEmpty && isNumber(token: expression.last!) else {
             throw CalcError.insufficientTerms
         }
         
