@@ -15,6 +15,7 @@ var expression = Expression(expression: args)
 let result: Int
 
 do {
+    try expression.checkTerms()
     try expression.convertToPostfix()
     try result = expression.evaluateExpression()
     

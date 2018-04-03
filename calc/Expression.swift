@@ -54,15 +54,35 @@ struct Expression {
         return 3;
     }
     
+    /// Method to check whether the expression arguments are in the form of:
+    /// [number operator number ...] and ends with a [number].
+    /// Otherwise, it is an invalid expression
+    mutating func checkTerms() throws {
+        guard isNumber(token: expression.last!) else {
+            throw CalcError.insufficientTerms
+        }
+        
+        for (index, token) in expression.enumerated() {
+            // even indices must be a number
+            if index % 2 == 0 {
+                guard isNumber(token: token) else {
+                    throw CalcError.insufficientTerms
+                }
+            }
+            // odd indices must be an operator
+            else {
+                guard isOperator(token: token) else {
+                    throw CalcError.insufficientTerms
+                }
+            }
+        }
+    }
+    
     /// Method to convert Infix Notation to Postfix Notation using Shunting-yard Algorithm
     mutating func convertToPostfix() throws {
         var stack = [String]()
         var output = [String]()
-        
-        if expression.isEmpty || (expression.count < 3 && !isNumber(token: expression.last!)) {
-            throw CalcError.insufficientTerms
-        }
-        
+
         for token in expression {
             if token == "(" {
                 stack.append(token)

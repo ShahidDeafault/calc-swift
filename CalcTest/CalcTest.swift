@@ -9,7 +9,7 @@
 import XCTest
 import GameKit // for deterministic random number generator
 
-let randomSource = GKLinearCongruentialRandomSource(seed: 6)
+let randomSource = GKLinearCongruentialRandomSource(seed: 8)
 
 let calcBundle = Bundle(identifier: "UTS.CalcTest")!
 let calcPath = ProcessInfo.processInfo.environment["CALC_PATH"] ?? calcBundle.path(forResource: "calc", ofType: nil)
@@ -104,11 +104,19 @@ class CalcTest: XCTestCase {
         task = calcProcess("x")
         XCTAssertNotNil(task.status, "exit with nonzero status on invalid input: \(task.input)")
         XCTAssert(task.status != calcError.timeout, "exit with nonzero status on invalid input: \(task.input)")
-        
+
+        task = calcProcess("10101", "10110")
+        XCTAssertNotNil(task.status, "exit with nonzero status on invalid input: \(task.input)")
+        XCTAssert(task.status != calcError.timeout, "exit with nonzero status on invalid input: \(task.input)")
+
         task = calcProcess("33", "-")
         XCTAssertNotNil(task.status, "exit with nonzero status on invalid input: \(task.input)")
         XCTAssert(task.status != calcError.timeout, "exit with nonzero status on invalid input: \(task.input)")
-        
+
+        task = calcProcess("66", "-6")
+        XCTAssertNotNil(task.status, "exit with nonzero status on invalid input: \(task.input)")
+        XCTAssert(task.status != calcError.timeout, "exit with nonzero status on invalid input: \(task.input)")
+
         task = calcProcess("3.1", "-4", "xyz")
         XCTAssertNotNil(task.status, "exit with nonzero status on invalid input: \(task.input)")
         XCTAssert(task.status != calcError.timeout, "exit with nonzero status on invalid input: \(task.input)")
@@ -120,7 +128,27 @@ class CalcTest: XCTestCase {
         task = calcProcess("50%", "+", "25%")
         XCTAssertNotNil(task.status, "exit with nonzero status on invalid input: \(task.input)")
         XCTAssert(task.status != calcError.timeout, "exit with nonzero status on invalid input: \(task.input)")
-    }
+
+        task = calcProcess("3", "x", "4.5.6")
+        XCTAssertNotNil(task.status, "exit with nonzero status on invalid input: \(task.input)")
+        XCTAssert(task.status != calcError.timeout, "exit with nonzero status on invalid input: \(task.input)")
+
+        task = calcProcess("7", "foo", "8")
+        XCTAssertNotNil(task.status, "exit with nonzero status on invalid input: \(task.input)")
+        XCTAssert(task.status != calcError.timeout, "exit with nonzero status on invalid input: \(task.input)")
+
+        task = calcProcess("12", "x", "/", "2")
+        XCTAssertNotNil(task.status, "exit with nonzero status on invalid input: \(task.input)")
+        XCTAssert(task.status != calcError.timeout, "exit with nonzero status on invalid input: \(task.input)")
+
+        task = calcProcess("12", "+")
+        XCTAssertNotNil(task.status, "exit with nonzero status on invalid input: \(task.input)")
+        XCTAssert(task.status != calcError.timeout, "exit with nonzero status on invalid input: \(task.input)")
+
+        task = calcProcess("12", "++", "12")
+        XCTAssertNotNil(task.status, "exit with nonzero status on invalid input: \(task.input)")
+        XCTAssert(task.status != calcError.timeout, "exit with nonzero status on invalid input: \(task.input)")
+}
     
     func testAdd() {
         var task: calcProcess
@@ -132,6 +160,9 @@ class CalcTest: XCTestCase {
         task = calcProcess(n1, "+", n2)
         XCTAssertEqual(task.output, String(n1 + n2), task.input)
         
+        task = calcProcess(n1, "+", "+\(n2)")
+        XCTAssertEqual(task.output, String(n1 + n2), task.input)
+
         task = calcProcess(n1, "+", n3)
         XCTAssertEqual(task.output, String(n1 + n3), task.input)
         
